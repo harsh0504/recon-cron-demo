@@ -235,6 +235,40 @@
 }
 
 /* Drawer Content Layouts */
+.drawer-mobile {
+  height: 90vh !important;
+  max-height: 90vh !important;
+  border-radius: 16px 16px 0 0 !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .drawer-section {
+    padding: 12px;
+    gap: 20px;
+  }
+
+  .drawer-section-compact {
+    padding: 8px 12px;
+    gap: 20px;
+  }
+
+  .drawer-columns-container {
+    max-height: 300px;
+  }
+
+  .drawer-filter-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .drawer-button-container {
+    height: auto;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+}
+
 .drawer-section {
   display: flex;
   flex-direction: column;

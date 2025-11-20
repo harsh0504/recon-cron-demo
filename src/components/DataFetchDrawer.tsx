@@ -73,6 +73,20 @@ export default function DataFetchDrawer({
   // Step management
   const [step, setStep] = useState<number>(1);
 
+  // Detect mobile screen
+  const [isMobile, setIsMobile] = useState<boolean>(
+    typeof window !== 'undefined' && window.innerWidth < 768
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // 1. Source Type
   const [sourceType, setSourceType] = useState<FetchType>("");
 
@@ -818,18 +832,18 @@ export default function DataFetchDrawer({
     <Drawer
       open={open}
       onOpenChange={onOpenChange}
-      direction="right"
+      direction={isMobile ? "bottom" : "right"}
       modal={true}
       showHandle={true}
     >
       <DrawerPortal>
         <DrawerOverlay />
         <DrawerContent
-          direction="right"
-          width="600px"
-          maxWidth="90vw"
-          showHandle={false}
-          className="data-fetch-drawer-content"
+          direction={isMobile ? "bottom" : "right"}
+          width={isMobile ? "100vw" : "600px"}
+          maxWidth={isMobile ? "100vw" : "90vw"}
+          showHandle={isMobile}
+          className={isMobile ? "data-fetch-drawer-content drawer-mobile" : "data-fetch-drawer-content"}
         >
           <DrawerHeader className="drawer-header-custom">
             <DrawerTitle>{initialData ? "Edit Task" : "New Task"}</DrawerTitle>
@@ -837,11 +851,11 @@ export default function DataFetchDrawer({
             <DrawerClose>×</DrawerClose>
           </DrawerHeader>
 
-          <DrawerBody direction="right" overflowY="auto" hasFooter={true}>
+          <DrawerBody direction={isMobile ? "bottom" : "right"} overflowY="auto" hasFooter={true}>
             {renderContent()}
           </DrawerBody>
 
-          <DrawerFooter direction="right">
+          <DrawerFooter direction={isMobile ? "bottom" : "right"}>
             <div className="drawer-footer-actions">
               {step !== 1 && (
                 <Button
