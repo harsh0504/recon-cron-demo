@@ -1,6 +1,8 @@
 import { useState } from "react";
+import type { ReactNode } from "react";
 import "./App.css";
 import DataFetchDrawer from "./components/DataFetchDrawer";
+import TaskLogsDrawer from "./components/TaskLogsDrawer";
 import {
   Button,
   ButtonType,
@@ -10,8 +12,7 @@ import {
   Tag,
   TagColor,
   TagVariant,
-  TagSize,
-  TagShape,
+  Sidebar,
 } from "@juspay/blend-design-system";
 
 interface Task {
@@ -24,9 +25,40 @@ interface Task {
   config?: any; // Store the full configuration
 }
 
+interface TaskLog {
+  id: string;
+  timestamp: string;
+  status: "success" | "failed" | "running";
+  message: string;
+  duration?: string;
+}
+
+// Sidebar navigation types
+interface NavbarItem {
+  label: string;
+  items?: NavbarItem[];
+  leftSlot?: ReactNode;
+  rightSlot?: ReactNode;
+  onClick?: () => void;
+  href?: string;
+  isSelected?: boolean;
+  showOnMobile?: boolean;
+}
+
+interface DirectoryData {
+  label?: string;
+  items?: NavbarItem[];
+  isCollapsible?: boolean;
+  defaultOpen?: boolean;
+}
+
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [isLogsOpen, setIsLogsOpen] = useState(false);
+  const [selectedTaskForLogs, setSelectedTaskForLogs] = useState<Task | null>(
+    null
+  );
   const [tasks, setTasks] = useState<Task[]>([
     {
       id: "1",
@@ -68,7 +100,8 @@ function App() {
           engine: "BigQuery",
           gateways: ["gw1", "gw2"],
           mode: "raw",
-          rawQuery: "SELECT * FROM analytics.transactions WHERE created_at > CURRENT_DATE() - 7",
+          rawQuery:
+            "SELECT * FROM analytics.transactions WHERE created_at > CURRENT_DATE() - 7",
           columns: [],
           filters: [],
           dateRanges: [],
@@ -158,6 +191,96 @@ function App() {
     setEditingTask(null);
   };
 
+  const handleViewLogs = (task: Task) => {
+    setSelectedTaskForLogs(task);
+    setIsLogsOpen(true);
+  };
+
+  const handleCloseLogsDrawer = () => {
+    setIsLogsOpen(false);
+    setSelectedTaskForLogs(null);
+  };
+
+  // Mock logs data for each task
+  const getTaskLogs = (taskId: string): TaskLog[] => {
+    const logsMap: Record<string, TaskLog[]> = {
+      "1": [
+        {
+          id: "log-1-1",
+          timestamp: "2024-01-15 10:30:00",
+          status: "success",
+          message: "Successfully fetched 1,234 records from SFTP server",
+          duration: "2m 15s",
+        },
+        {
+          id: "log-1-2",
+          timestamp: "2024-01-14 10:30:00",
+          status: "success",
+          message: "Successfully fetched 1,189 records from SFTP server",
+          duration: "2m 8s",
+        },
+        {
+          id: "log-1-3",
+          timestamp: "2024-01-13 10:30:00",
+          status: "success",
+          message: "Successfully fetched 1,456 records from SFTP server",
+          duration: "2m 42s",
+        },
+      ],
+      "2": [
+        {
+          id: "log-2-1",
+          timestamp: "2024-01-14 08:00:00",
+          status: "success",
+          message:
+            "BigQuery analytics export completed successfully. Exported 45,678 rows.",
+          duration: "5m 32s",
+        },
+        {
+          id: "log-2-2",
+          timestamp: "2024-01-07 08:00:00",
+          status: "success",
+          message:
+            "BigQuery analytics export completed successfully. Exported 43,921 rows.",
+          duration: "5m 18s",
+        },
+      ],
+      "3": [
+        {
+          id: "log-3-1",
+          timestamp: "2024-01-15 09:15:00",
+          status: "failed",
+          message:
+            "Connection timeout: Failed to connect to Bank API endpoint after 3 retries",
+          duration: "15m 30s",
+        },
+        {
+          id: "log-3-2",
+          timestamp: "2024-01-14 09:15:00",
+          status: "success",
+          message: "Successfully fetched settlement data from Bank API",
+          duration: "1m 45s",
+        },
+        {
+          id: "log-3-3",
+          timestamp: "2024-01-13 09:15:00",
+          status: "failed",
+          message: "API rate limit exceeded. Retry scheduled.",
+          duration: "0m 30s",
+        },
+        {
+          id: "log-3-4",
+          timestamp: "2024-01-12 09:15:00",
+          status: "success",
+          message: "Successfully fetched settlement data from Bank API",
+          duration: "1m 52s",
+        },
+      ],
+    };
+
+    return logsMap[taskId] || [];
+  };
+
   const getTagColor = (status: string): TagColor => {
     switch (status) {
       case "Active":
@@ -174,22 +297,66 @@ function App() {
   const activeTasksCount = tasks.filter((t) => t.status === "Active").length;
   const failedTasksCount = tasks.filter((t) => t.status === "Failed").length;
 
-  return (
-    <div className="dashboard">
-      {/* Header */}
-      <header className="dashboard-header">
-        <div>
-          <h1>Data Fetch Scheduler</h1>
-          <p>Manage and monitor your automated data fetch tasks</p>
-        </div>
-        <Button
-          buttonType={ButtonType.PRIMARY}
-          size={ButtonSize.LARGE}
-          text="+ New Task"
-          onClick={handleOpenDrawer}
-        />
-      </header>
+  // Sidebar navigation state and data
+  const [currentView, setCurrentView] = useState<string>("dashboard");
 
+  const navigationData: DirectoryData[] = [
+    {
+      label: "Main",
+      items: [
+        {
+          label: "Data Fetch Scheduler",
+          isSelected: currentView === "dashboard",
+          onClick: () => setCurrentView("dashboard"),
+          showOnMobile: true,
+        },
+        {
+          label: "All Tasks",
+          isSelected: currentView === "tasks",
+          onClick: () => setCurrentView("tasks"),
+          showOnMobile: true,
+        },
+      ],
+      defaultOpen: true,
+    },
+    {
+      label: "Management",
+      items: [
+        {
+          label: "History",
+          isSelected: currentView === "history",
+          onClick: () => setCurrentView("history"),
+          showOnMobile: true,
+        },
+        {
+          label: "Settings",
+          isSelected: currentView === "settings",
+          onClick: () => setCurrentView("settings"),
+          showOnMobile: true,
+        },
+      ],
+      defaultOpen: true,
+      isCollapsible: true,
+    },
+  ];
+
+  // Topbar content
+  const topbarContent = (
+    <div style={{ padding: "0 20px" }}>
+      <h2 style={{ margin: 0, fontSize: "18px", fontWeight: 600 }}>
+        Data Fetch Scheduler
+      </h2>
+    </div>
+  );
+
+  return (
+    <Sidebar
+      data={navigationData}
+      topbar={topbarContent}
+      sidebarCollapseKey="data-fetch-scheduler-sidebar"
+      defaultIsExpanded={true}
+    >
+      <div className="dashboard">
       {/* Stats Cards */}
       <div className="stats-grid">
         <Card variant={CardVariant.CUSTOM}>
@@ -217,7 +384,15 @@ function App() {
 
       {/* Tasks Table */}
       <div className="tasks-section">
-        <h2>Scheduled Tasks</h2>
+        <div className="tasks-section-header">
+          <h2>Scheduled Tasks</h2>
+          <Button
+            buttonType={ButtonType.PRIMARY}
+            size={ButtonSize.MEDIUM}
+            text="+ New Task"
+            onClick={handleOpenDrawer}
+          />
+        </div>
         <div className="tasks-list">
           {tasks.length === 0 ? (
             <Card variant={CardVariant.CUSTOM}>
@@ -249,9 +424,7 @@ function App() {
                       <Tag
                         text={task.status}
                         color={getTagColor(task.status)}
-                        variant={TagVariant.ATTENTIVE}
-                        size={TagSize.SM}
-                        shape={TagShape.ROUNDED}
+                        variant={TagVariant.SUBTLE}
                       />
                     </div>
                     <div className="task-details">
@@ -282,7 +455,7 @@ function App() {
                       buttonType={ButtonType.SECONDARY}
                       size={ButtonSize.SMALL}
                       text="View Logs"
-                      onClick={() => console.log("View logs", task.id)}
+                      onClick={() => handleViewLogs(task)}
                     />
                   </div>
                 </div>
@@ -298,7 +471,15 @@ function App() {
         onSubmit={handleModalSubmit}
         initialData={editingTask?.config}
       />
+
+      <TaskLogsDrawer
+        open={isLogsOpen}
+        onOpenChange={handleCloseLogsDrawer}
+        taskName={selectedTaskForLogs?.name || ""}
+        logs={selectedTaskForLogs ? getTaskLogs(selectedTaskForLogs.id) : []}
+      />
     </div>
+    </Sidebar>
   );
 }
 

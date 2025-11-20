@@ -75,7 +75,7 @@ export default function DataFetchDrawer({
 
   // Detect mobile screen
   const [isMobile, setIsMobile] = useState<boolean>(
-    typeof window !== 'undefined' && window.innerWidth < 768
+    typeof window !== "undefined" && window.innerWidth < 768
   );
 
   useEffect(() => {
@@ -83,8 +83,8 @@ export default function DataFetchDrawer({
       setIsMobile(window.innerWidth < 768);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // 1. Source Type
@@ -550,9 +550,7 @@ export default function DataFetchDrawer({
           ) : (
             <>
               <div>
-                <label className="drawer-label">
-                  Select Columns
-                </label>
+                <label className="drawer-label">Select Columns</label>
                 <div className="drawer-columns-container">
                   {availableColumns.map((column) => {
                     const isSelected = selectedColumns.some(
@@ -608,10 +606,7 @@ export default function DataFetchDrawer({
                       Filters (WHERE clause)
                     </label>
                     {filters.map((filter, index) => (
-                      <div
-                        key={index}
-                        className="drawer-filter-row"
-                      >
+                      <div key={index} className="drawer-filter-row">
                         <SingleSelect
                           placeholder="Column"
                           items={columnItems}
@@ -843,7 +838,11 @@ export default function DataFetchDrawer({
           width={isMobile ? "100vw" : "600px"}
           maxWidth={isMobile ? "100vw" : "90vw"}
           showHandle={isMobile}
-          className={isMobile ? "data-fetch-drawer-content drawer-mobile" : "data-fetch-drawer-content"}
+          className={
+            isMobile
+              ? "data-fetch-drawer-content drawer-mobile"
+              : "data-fetch-drawer-content"
+          }
         >
           <DrawerHeader className="drawer-header-custom">
             <DrawerTitle>{initialData ? "Edit Task" : "New Task"}</DrawerTitle>
@@ -851,7 +850,11 @@ export default function DataFetchDrawer({
             <DrawerClose>×</DrawerClose>
           </DrawerHeader>
 
-          <DrawerBody direction={isMobile ? "bottom" : "right"} overflowY="auto" hasFooter={true}>
+          <DrawerBody
+            direction={isMobile ? "bottom" : "right"}
+            overflowY="auto"
+            hasFooter={true}
+          >
             {renderContent()}
           </DrawerBody>
 
