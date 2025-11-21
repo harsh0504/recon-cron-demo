@@ -1,38 +1,30 @@
 .transaction-analytics {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 32px;
-  background-color: #ffffff;
+  background-color: var(--color-surface);
   min-height: 100vh;
 }
 
 /* Analytics Top Section */
 .analytics-top-section {
-  margin-bottom: 32px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
 .analytics-title-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 24px;
 }
 
 .analytics-title {
-  font-size: 28px;
-  font-weight: 700;
   color: var(--color-text-primary);
   margin: 0;
-  letter-spacing: -0.5px;
 }
 
 .boards-section {
   display: flex;
   align-items: center;
-  gap: 16px;
   justify-content: flex-end;
 }
 
@@ -54,210 +46,43 @@
   white-space: nowrap;
 }
 
-/* Key Insights Section */
-.key-insights-section {
-  margin-bottom: 32px;
-}
-
-.key-insights-title {
-  font-size: 20px;
-  font-weight: 600;
+/* Section Titles */
+.key-insights-title,
+.section-title {
   color: var(--color-text-primary);
-  margin: 0 0 20px 0;
 }
 
 /* Metric Overview Section */
-.metric-overview-section {
-  margin-bottom: 32px;
-}
-
-.section-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--color-text-primary);
+.metric-overview-section > div:last-child {
+  margin-right: -32px;
 }
 
 .stat-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-/* Topbar */
-.analytics-topbar {
-  margin-bottom: 32px;
-  max-width: 400px;
-}
-
-/* Header */
-.analytics-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 32px;
-  gap: 24px;
-}
-
-.analytics-header h1 {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin: 0 0 8px 0;
-  letter-spacing: -0.5px;
-}
-
-.analytics-header p {
-  font-size: 16px;
-  color: var(--color-text-secondary);
-  margin: 0;
-}
-
-.time-range-selector {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-/* Metrics Grid */
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 24px;
-  margin-bottom: 32px;
-}
-
-.metric-card {
-  padding: 24px;
-}
-
-.metric-title {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  margin-bottom: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.metric-value {
-  font-size: 36px;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin-bottom: 8px;
-  line-height: 1;
-}
-
-.metric-change {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.metric-change.up {
-  color: var(--color-success);
-}
-
-.metric-change.down {
-  color: var(--color-danger);
-}
-
-/* Charts Section */
-.charts-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 24px;
-  margin-bottom: 32px;
-}
-
-.chart-card {
-  padding: 24px;
-}
-
-.chart-card h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin: 0 0 20px 0;
-}
-
-.chart-placeholder {
-  height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-gray-50);
-  border: 2px dashed var(--color-border);
-  border-radius: 8px;
-}
-
-.chart-placeholder p {
-  color: var(--color-text-secondary);
-  font-size: 14px;
-}
-
-/* Table Card */
-.table-card {
-  padding: 24px;
-}
-
-.table-card h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin: 0 0 20px 0;
-}
-
-.table-placeholder {
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-gray-50);
-  border: 2px dashed var(--color-border);
-  border-radius: 8px;
-}
-
-.table-placeholder p {
-  color: var(--color-text-secondary);
-  font-size: 14px;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .transaction-analytics {
-    padding: 16px;
-  }
-
-  .analytics-topbar {
-    max-width: 100%;
-  }
-
-  .analytics-header {
+  .analytics-title-row {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .analytics-header h1 {
-    font-size: 24px;
-  }
-
-  .time-range-selector {
+  .boards-section {
     width: 100%;
+    margin-top: 12px;
   }
 
-  .time-range-selector button {
-    flex: 1;
-    min-width: 0;
+  .filters-row {
+    flex-wrap: wrap;
   }
 
-  .charts-section {
-    grid-template-columns: 1fr;
+  .stat-cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
-  .metrics-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
-
-  .metric-value {
-    font-size: 28px;
+  .metric-overview-section > div:last-child {
+    margin-right: 0;
   }
 }

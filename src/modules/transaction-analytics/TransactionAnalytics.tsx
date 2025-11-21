@@ -1,9 +1,7 @@
 import { useState } from "react";
 import "./TransactionAnalytics.css";
-import type { DateRange } from "@juspay/blend-design-system";
+import type { DateRange, ColumnDefinition } from "@juspay/blend-design-system";
 import {
-  Card,
-  CardVariant,
   Button,
   ButtonType,
   ButtonSize,
@@ -16,26 +14,103 @@ import {
   DateRangePicker,
   SingleSelect,
   SelectMenuSize,
+  SelectMenuVariant,
   FOUNDATION_THEME,
   StatCard,
   StatCardVariant,
   ChangeType,
   Charts,
   ChartType,
+  DataTable,
+  ColumnType,
 } from "@juspay/blend-design-system";
+
+type TransactionSummaryRow = {
+  id: string;
+  paymentMethodType: string;
+  overallTransaction: string;
+  traffic: string;
+  transactionSuccessRate: string;
+  processedAmount: string;
+  successRate: string;
+};
 
 export default function TransactionAnalytics() {
   const [selectedBoard, setSelectedBoard] = useState<string>("transaction");
-  const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<DateRange>({
     startDate: new Date(),
     endDate: new Date(),
   });
 
+  // Summary Table Data
+  const summaryTableData: TransactionSummaryRow[] = [
+    { id: "1", paymentMethodType: "UPI", overallTransaction: "98.32L", traffic: "100%", transactionSuccessRate: "49.03%", processedAmount: "₹ 342", successRate: "49.03%" },
+    { id: "2", paymentMethodType: "Card", overallTransaction: "98.32L", traffic: "100%", transactionSuccessRate: "49.03%", processedAmount: "₹ 342", successRate: "49.03%" },
+    { id: "3", paymentMethodType: "Netbanking", overallTransaction: "98.32L", traffic: "100%", transactionSuccessRate: "49.03%", processedAmount: "₹ 342", successRate: "49.03%" },
+    { id: "4", paymentMethodType: "Netbanking", overallTransaction: "98.32L", traffic: "100%", transactionSuccessRate: "49.03%", processedAmount: "₹ 342", successRate: "49.03%" },
+    { id: "5", paymentMethodType: "Card", overallTransaction: "98.32L", traffic: "100%", transactionSuccessRate: "49.03%", processedAmount: "₹ 342", successRate: "49.03%" },
+    { id: "6", paymentMethodType: "UPI", overallTransaction: "98.32L", traffic: "100%", transactionSuccessRate: "49.03%", processedAmount: "₹ 342", successRate: "49.03%" },
+    { id: "7", paymentMethodType: "UPI", overallTransaction: "98.32L", traffic: "100%", transactionSuccessRate: "49.03%", processedAmount: "₹ 342", successRate: "49.03%" },
+    { id: "8", paymentMethodType: "Card", overallTransaction: "98.32L", traffic: "100%", transactionSuccessRate: "49.03%", processedAmount: "₹ 342", successRate: "49.03%" },
+    { id: "9", paymentMethodType: "Netbanking", overallTransaction: "98.32L", traffic: "100%", transactionSuccessRate: "49.03%", processedAmount: "₹ 342", successRate: "49.03%" },
+  ];
+
+  // Summary Table Columns
+  const summaryTableColumns: ColumnDefinition<Record<string, unknown>>[] = [
+    {
+      field: "paymentMethodType",
+      header: "Payment Method Type",
+      type: ColumnType.TEXT,
+      isSortable: true,
+      width: "200px",
+    },
+    {
+      field: "overallTransaction",
+      header: "Overall Transaction",
+      type: ColumnType.TEXT,
+      isSortable: true,
+      width: "180px",
+    },
+    {
+      field: "traffic",
+      header: "Traffic",
+      type: ColumnType.TEXT,
+      isSortable: true,
+      width: "120px",
+    },
+    {
+      field: "transactionSuccessRate",
+      header: "Transaction Success Rate",
+      type: ColumnType.TEXT,
+      isSortable: true,
+      width: "220px",
+    },
+    {
+      field: "processedAmount",
+      header: "Processed Amount",
+      type: ColumnType.TEXT,
+      isSortable: true,
+      width: "180px",
+    },
+    {
+      field: "successRate",
+      header: "Success",
+      type: ColumnType.TEXT,
+      isSortable: true,
+      width: "120px",
+    },
+  ];
+
   return (
-    <div className="transaction-analytics">
+    <div
+      className="transaction-analytics"
+      style={{ padding: FOUNDATION_THEME.unit[32] }}
+    >
       {/* Analytics Header with Tabs */}
-      <div className="analytics-top-section">
+      <div
+        className="analytics-top-section"
+        style={{ marginBottom: FOUNDATION_THEME.unit[32] }}
+      >
         <div className="analytics-title-row">
           <h1 className="analytics-title">Analytics</h1>
           <div className="boards-section">
@@ -225,22 +300,12 @@ export default function TransactionAnalytics() {
             onClick={() => console.log("Download data")}
           />
 
-          <SingleSelect
-            placeholder="Filters"
+          <Button
+            buttonType={ButtonType.SECONDARY}
+            size={ButtonSize.MEDIUM}
+            text="Filters"
             fullWidth={false}
-            size={SelectMenuSize.MEDIUM}
-            items={[
-              {
-                items: [
-                  { label: "Status", value: "status" },
-                  { label: "Amount", value: "amount" },
-                  { label: "Payment Method", value: "payment_method" },
-                ],
-              },
-            ]}
-            selected={selectedFilter}
-            onSelect={setSelectedFilter}
-            slot={
+            leadingIcon={
               <svg
                 width="16"
                 height="16"
@@ -257,14 +322,27 @@ export default function TransactionAnalytics() {
                 />
               </svg>
             }
+            onClick={() => console.log("Filters clicked")}
           />
         </div>
       </div>
 
       {/* Key Insights Section */}
-      <div className="key-insights-section">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-          <h2 className="key-insights-title" style={{ margin: 0 }}>Key Insights</h2>
+      <div
+        className="key-insights-section"
+        style={{ marginBottom: FOUNDATION_THEME.unit[32] }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: FOUNDATION_THEME.unit[20],
+          }}
+        >
+          <h2 className="key-insights-title" style={{ margin: 0 }}>
+            Key Insights
+          </h2>
           <Button
             buttonType={ButtonType.SECONDARY}
             subType={ButtonSubType.INLINE}
@@ -290,7 +368,10 @@ export default function TransactionAnalytics() {
             onClick={() => console.log("View all stats")}
           />
         </div>
-        <div className="stat-cards-grid">
+        <div
+          className="stat-cards-grid"
+          style={{ gap: FOUNDATION_THEME.unit[20] }}
+        >
           <StatCard
             title="Transaction Success Rate"
             value="83.24%"
@@ -465,14 +546,25 @@ export default function TransactionAnalytics() {
               { name: "7", value: 76 },
             ]}
           />
-
         </div>
       </div>
 
       {/* Metric Overview Section */}
-      <div className="metric-overview-section">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-          <h2 className="section-title" style={{ margin: 0 }}>Metric Overview</h2>
+      <div
+        className="metric-overview-section"
+        style={{ marginBottom: FOUNDATION_THEME.unit[32] }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: FOUNDATION_THEME.unit[20],
+          }}
+        >
+          <h2 className="section-title" style={{ margin: 0 }}>
+            Metric Overview
+          </h2>
           <Button
             buttonType={ButtonType.SECONDARY}
             size={ButtonSize.MEDIUM}
@@ -501,12 +593,18 @@ export default function TransactionAnalytics() {
         <Charts
           chartType={ChartType.LINE}
           showHeader={true}
-          chartHeaderSlot={<span style={{ fontSize: "16px", fontWeight: 600 }}>Transaction Rate</span>}
+          showCollapseIcon={false}
+          chartHeaderSlot={
+            <span style={{ fontSize: "16px", fontWeight: 600 }}>
+              Transaction Rate
+            </span>
+          }
           slot1={
             <SingleSelect
               placeholder="Dropdown 1"
               fullWidth={false}
               size={SelectMenuSize.SMALL}
+              variant={SelectMenuVariant.NO_CONTAINER}
               items={[
                 {
                   items: [
@@ -525,6 +623,7 @@ export default function TransactionAnalytics() {
               placeholder="Dropdown 2"
               fullWidth={false}
               size={SelectMenuSize.SMALL}
+              variant={SelectMenuVariant.NO_CONTAINER}
               items={[
                 {
                   items: [
@@ -541,6 +640,7 @@ export default function TransactionAnalytics() {
           slot3={
             <Button
               buttonType={ButtonType.SECONDARY}
+              subType={ButtonSubType.INLINE}
               size={ButtonSize.SMALL}
               fullWidth={false}
               leadingIcon={
@@ -563,116 +663,486 @@ export default function TransactionAnalytics() {
             {
               name: "Mon",
               data: {
-                "Successful Transactions": { primary: { label: "Successful Transactions", val: 4500 } },
-                "Failed Transactions": { primary: { label: "Failed Transactions", val: 1200 } },
-                "Pending Transactions": { primary: { label: "Pending Transactions", val: 800 } },
-                "Refunded Transactions": { primary: { label: "Refunded Transactions", val: 300 } },
-                "Cancelled Transactions": { primary: { label: "Cancelled Transactions", val: 200 } },
-                "Processing Transactions": { primary: { label: "Processing Transactions", val: 600 } },
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 4500 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 1200 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 800 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 300 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 200 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 600 },
+                },
               },
             },
             {
               name: "Tue",
               data: {
-                "Successful Transactions": { primary: { label: "Successful Transactions", val: 5200 } },
-                "Failed Transactions": { primary: { label: "Failed Transactions", val: 1000 } },
-                "Pending Transactions": { primary: { label: "Pending Transactions", val: 900 } },
-                "Refunded Transactions": { primary: { label: "Refunded Transactions", val: 350 } },
-                "Cancelled Transactions": { primary: { label: "Cancelled Transactions", val: 250 } },
-                "Processing Transactions": { primary: { label: "Processing Transactions", val: 700 } },
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 5200 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 1000 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 900 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 350 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 250 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 700 },
+                },
               },
             },
             {
               name: "Wed",
               data: {
-                "Successful Transactions": { primary: { label: "Successful Transactions", val: 4800 } },
-                "Failed Transactions": { primary: { label: "Failed Transactions", val: 1100 } },
-                "Pending Transactions": { primary: { label: "Pending Transactions", val: 750 } },
-                "Refunded Transactions": { primary: { label: "Refunded Transactions", val: 280 } },
-                "Cancelled Transactions": { primary: { label: "Cancelled Transactions", val: 180 } },
-                "Processing Transactions": { primary: { label: "Processing Transactions", val: 650 } },
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 4800 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 1100 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 750 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 280 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 180 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 650 },
+                },
               },
             },
             {
               name: "Thu",
               data: {
-                "Successful Transactions": { primary: { label: "Successful Transactions", val: 5500 } },
-                "Failed Transactions": { primary: { label: "Failed Transactions", val: 950 } },
-                "Pending Transactions": { primary: { label: "Pending Transactions", val: 850 } },
-                "Refunded Transactions": { primary: { label: "Refunded Transactions", val: 400 } },
-                "Cancelled Transactions": { primary: { label: "Cancelled Transactions", val: 220 } },
-                "Processing Transactions": { primary: { label: "Processing Transactions", val: 720 } },
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 5500 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 950 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 850 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 400 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 220 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 720 },
+                },
               },
             },
             {
               name: "Fri",
               data: {
-                "Successful Transactions": { primary: { label: "Successful Transactions", val: 6000 } },
-                "Failed Transactions": { primary: { label: "Failed Transactions", val: 900 } },
-                "Pending Transactions": { primary: { label: "Pending Transactions", val: 950 } },
-                "Refunded Transactions": { primary: { label: "Refunded Transactions", val: 450 } },
-                "Cancelled Transactions": { primary: { label: "Cancelled Transactions", val: 200 } },
-                "Processing Transactions": { primary: { label: "Processing Transactions", val: 800 } },
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 6000 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 900 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 950 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 450 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 200 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 800 },
+                },
               },
             },
             {
               name: "Sat",
               data: {
-                "Successful Transactions": { primary: { label: "Successful Transactions", val: 5800 } },
-                "Failed Transactions": { primary: { label: "Failed Transactions", val: 850 } },
-                "Pending Transactions": { primary: { label: "Pending Transactions", val: 700 } },
-                "Refunded Transactions": { primary: { label: "Refunded Transactions", val: 320 } },
-                "Cancelled Transactions": { primary: { label: "Cancelled Transactions", val: 150 } },
-                "Processing Transactions": { primary: { label: "Processing Transactions", val: 550 } },
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 5800 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 850 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 700 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 320 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 150 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 550 },
+                },
               },
             },
             {
               name: "Sun",
               data: {
-                "Successful Transactions": { primary: { label: "Successful Transactions", val: 4200 } },
-                "Failed Transactions": { primary: { label: "Failed Transactions", val: 750 } },
-                "Pending Transactions": { primary: { label: "Pending Transactions", val: 600 } },
-                "Refunded Transactions": { primary: { label: "Refunded Transactions", val: 270 } },
-                "Cancelled Transactions": { primary: { label: "Cancelled Transactions", val: 130 } },
-                "Processing Transactions": { primary: { label: "Processing Transactions", val: 480 } },
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 4200 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 750 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 600 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 270 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 130 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 480 },
+                },
               },
             },
           ]}
-          colors={["#10b981", "#ef4444", "#f59e0b", "#8b5cf6", "#6b7280", "#3b82f6"]}
+          colors={[
+            "#10b981",
+            "#ef4444",
+            "#f59e0b",
+            "#8b5cf6",
+            "#6b7280",
+            "#3b82f6",
+          ]}
           height={400}
         />
       </div>
 
-      {/* Charts Placeholder */}
-      <div className="charts-section">
-        <Card variant={CardVariant.CUSTOM}>
-          <div className="chart-card">
-            <h3>Transaction Volume Over Time</h3>
-            <div className="chart-placeholder">
-              <p>Chart visualization will be implemented here</p>
-            </div>
-          </div>
-        </Card>
-
-        <Card variant={CardVariant.CUSTOM}>
-          <div className="chart-card">
-            <h3>Transaction Status Distribution</h3>
-            <div className="chart-placeholder">
-              <p>Chart visualization will be implemented here</p>
-            </div>
-          </div>
-        </Card>
+      {/* Overall Transaction Bar Chart */}
+      <div
+        className="metric-overview-section"
+        style={{ marginBottom: FOUNDATION_THEME.unit[24] }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: FOUNDATION_THEME.unit[16],
+          }}
+        ></div>
+        <Charts
+          chartType={ChartType.BAR}
+          showHeader={true}
+          showCollapseIcon={false}
+          chartHeaderSlot={
+            <span style={{ fontSize: "16px", fontWeight: 600 }}>
+              Overall Transaction
+            </span>
+          }
+          slot1={
+            <SingleSelect
+              placeholder="Dropdown 1"
+              fullWidth={false}
+              size={SelectMenuSize.SMALL}
+              variant={SelectMenuVariant.NO_CONTAINER}
+              items={[
+                {
+                  items: [
+                    { label: "Last 7 days", value: "7d" },
+                    { label: "Last 30 days", value: "30d" },
+                    { label: "Last 90 days", value: "90d" },
+                  ],
+                },
+              ]}
+              selected=""
+              onSelect={(value) => console.log("Dropdown 1:", value)}
+            />
+          }
+          slot2={
+            <SingleSelect
+              placeholder="Dropdown 2"
+              fullWidth={false}
+              size={SelectMenuSize.SMALL}
+              variant={SelectMenuVariant.NO_CONTAINER}
+              items={[
+                {
+                  items: [
+                    { label: "Daily", value: "daily" },
+                    { label: "Weekly", value: "weekly" },
+                    { label: "Monthly", value: "monthly" },
+                  ],
+                },
+              ]}
+              selected=""
+              onSelect={(value) => console.log("Dropdown 2:", value)}
+            />
+          }
+          slot3={
+            <Button
+              buttonType={ButtonType.SECONDARY}
+              subType={ButtonSubType.INLINE}
+              size={ButtonSize.SMALL}
+              fullWidth={false}
+              leadingIcon={
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="8" cy="3" r="1" fill="currentColor" />
+                  <circle cx="8" cy="8" r="1" fill="currentColor" />
+                  <circle cx="8" cy="13" r="1" fill="currentColor" />
+                </svg>
+              }
+              onClick={() => console.log("More actions")}
+            />
+          }
+          data={[
+            {
+              name: "Mon",
+              data: {
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 4500 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 1200 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 800 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 300 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 200 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 600 },
+                },
+              },
+            },
+            {
+              name: "Tue",
+              data: {
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 5200 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 1000 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 900 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 350 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 250 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 700 },
+                },
+              },
+            },
+            {
+              name: "Wed",
+              data: {
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 4800 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 1100 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 750 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 280 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 180 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 650 },
+                },
+              },
+            },
+            {
+              name: "Thu",
+              data: {
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 5500 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 950 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 850 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 400 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 220 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 750 },
+                },
+              },
+            },
+            {
+              name: "Fri",
+              data: {
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 6000 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 900 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 950 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 380 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 190 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 800 },
+                },
+              },
+            },
+            {
+              name: "Sat",
+              data: {
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 5800 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 850 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 700 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 320 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 150 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 550 },
+                },
+              },
+            },
+            {
+              name: "Sun",
+              data: {
+                "Successful Transactions": {
+                  primary: { label: "Successful Transactions", val: 4200 },
+                },
+                "Failed Transactions": {
+                  primary: { label: "Failed Transactions", val: 750 },
+                },
+                "Pending Transactions": {
+                  primary: { label: "Pending Transactions", val: 600 },
+                },
+                "Refunded Transactions": {
+                  primary: { label: "Refunded Transactions", val: 270 },
+                },
+                "Cancelled Transactions": {
+                  primary: { label: "Cancelled Transactions", val: 130 },
+                },
+                "Processing Transactions": {
+                  primary: { label: "Processing Transactions", val: 480 },
+                },
+              },
+            },
+          ]}
+          colors={[
+            "#10b981",
+            "#ef4444",
+            "#f59e0b",
+            "#8b5cf6",
+            "#6b7280",
+            "#3b82f6",
+          ]}
+          height={400}
+        />
       </div>
 
-      {/* Table Placeholder */}
-      <Card variant={CardVariant.CUSTOM}>
-        <div className="table-card">
-          <h3>Recent Transactions</h3>
-          <div className="table-placeholder">
-            <p>Transaction table will be implemented here</p>
-          </div>
+      {/* Summary Table Section */}
+      <div style={{ marginBottom: FOUNDATION_THEME.unit[32] }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: FOUNDATION_THEME.unit[20] }}>
+          <h2 className="section-title" style={{
+            fontSize: FOUNDATION_THEME.font.size.heading.md.fontSize,
+            fontWeight: FOUNDATION_THEME.font.weight[600],
+            margin: 0
+          }}>
+            Summary Table
+          </h2>
+          <Button
+            buttonType={ButtonType.SECONDARY}
+            size={ButtonSize.MEDIUM}
+            text="Group By"
+            fullWidth={false}
+            leadingIcon={
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14 2H2L6.66667 7.56V11.3333L9.33333 12.6667V7.56L14 2Z"
+                  stroke="currentColor"
+                  strokeWidth="1.33333"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            }
+            onClick={() => console.log("Group by")}
+          />
         </div>
-      </Card>
+
+        <DataTable
+          data={summaryTableData}
+          columns={summaryTableColumns}
+          idField="id"
+          enableRowSelection={true}
+          pagination={{
+            currentPage: 1,
+            pageSize: 10,
+            totalRows: summaryTableData.length,
+            pageSizeOptions: [10, 20, 50],
+          }}
+          isHoverable={true}
+          showHeader={false}
+          showToolbar={false}
+        />
+      </div>
     </div>
   );
 }
