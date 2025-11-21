@@ -1,12 +1,47 @@
-# Data Fetch Scheduler
+# Blend Design System Demos
 
-A modern web application for managing and scheduling automated data fetch tasks from multiple sources including SFTP, ETL engines, and APIs.
+A collection of demo applications showcasing the [Juspay Blend Design System](https://juspay.design) components, patterns, and best practices.
 
 ## Overview
 
-Data Fetch Scheduler provides a clean, intuitive interface for configuring and monitoring scheduled data fetching tasks. Built with React and the Blend Design System, it offers a comprehensive solution for automating data ingestion workflows with built-in retry logic, alerting, and flexible scheduling options.
+This repository contains multiple demo applications built with React and the Blend Design System. Each demo showcases different aspects of the design system, including components, foundation tokens, theming, and responsive design patterns.
 
-## Features
+## Demos
+
+### 1. Transaction Analytics Dashboard
+
+A comprehensive analytics dashboard demonstrating data visualization and reporting capabilities using Blend components.
+
+**Featured Components:**
+- **StatCard**: Displaying key metrics with line charts and percentage changes
+- **Charts**: Line and bar charts for transaction data visualization
+- **DataTable**: Sortable, paginated table with row selection
+- **Tabs**: Boxed variant for switching between analytics views (Transaction, Order, Customers, Refunds)
+- **DateRangePicker**: Date range selection for filtering data
+- **Button**: Various button types and sizes for actions
+- **SingleSelect**: Dropdown menus for filtering and grouping
+
+**Key Features:**
+- 8 StatCards with mini line charts showing key insights
+- Transaction Rate line chart with 6 data series
+- Overall Transaction bar chart
+- Summary table with 6 columns and pagination
+- Responsive grid layout
+- Complete foundation token usage for spacing and typography
+
+### 2. Data Fetch Scheduler
+
+A modern web application for managing and scheduling automated data fetch tasks from multiple sources including SFTP, ETL engines, and APIs.
+
+**Featured Components:**
+- **Drawer**: Complex multi-step task configuration
+- **Stepper**: Step-by-step task creation workflow
+- **Form Components**: Input fields, selects, and validation
+- **Card**: Task display with status indicators
+- **Tag**: Status badges (Active, Inactive, Failed)
+- **Button**: Action buttons throughout the interface
+
+## Data Fetch Scheduler Features
 
 ### Data Source Support
 - **SFTP**: Fetch gateway files through SFTP servers with support for BASE, PSP, and BANK configurations
@@ -98,13 +133,20 @@ npm run lint
 cron-demo/
 ├── src/
 │   ├── components/
-│   │   └── DataFetchDrawer.tsx    # Main task configuration drawer
+│   │   ├── DataFetchDrawer.tsx    # Data Fetch Scheduler drawer component
+│   │   └── TaskLogsDrawer.tsx     # Task logs viewer component
+│   ├── modules/
+│   │   └── transaction-analytics/ # Transaction Analytics demo
+│   │       ├── TransactionAnalytics.tsx
+│   │       └── TransactionAnalytics.css
 │   ├── theme/
 │   │   └── customTheme.ts         # Blend theme customization
-│   ├── App.tsx                    # Main application component
+│   ├── App.tsx                    # Main application with routing
 │   ├── App.css                    # Application styles
 │   ├── index.css                  # Global styles and foundation tokens
 │   └── main.tsx                   # Application entry point
+├── .claude/
+│   └── CODING_GUIDELINES.md       # Foundation token usage guidelines
 ├── public/                        # Static assets
 └── package.json
 ```
@@ -136,7 +178,25 @@ The project uses Blend Design System components throughout. All styling follows 
 
 ## Usage
 
-### Creating a Task
+### Navigating Between Demos
+
+The application includes navigation to switch between different demos. Use the sidebar or navigation menu to explore:
+- **Transaction Analytics**: Analytics dashboard with charts and data tables
+- **Data Fetch Scheduler**: Task scheduling and management interface
+
+### Transaction Analytics Demo
+
+Explore the analytics dashboard to see:
+- **Key Insights Section**: 8 StatCards displaying metrics with mini charts
+- **Metric Overview**: Interactive line chart with multiple data series
+- **Overall Transaction**: Bar chart visualization
+- **Summary Table**: DataTable with sorting, pagination, and row selection
+- **Filters**: DateRangePicker and filter buttons for data manipulation
+- **Tabs**: Switch between Transaction, Order, Customers, and Refunds views
+
+### Data Fetch Scheduler Demo
+
+#### Creating a Task
 
 1. Click the **"+ New Task"** button in the dashboard header
 2. Select your data source type (SFTP, ETL, or API)
@@ -148,13 +208,13 @@ The project uses Blend Design System components throughout. All styling follows 
 5. Set up the schedule (time and frequency)
 6. Submit to create the task
 
-### Editing a Task
+#### Editing a Task
 
 1. Click the **"Edit"** button on any task card
 2. Modify the configuration as needed
 3. Save changes
 
-### Monitoring Tasks
+#### Monitoring Tasks
 
 - View all tasks in the main dashboard
 - Check task status with color-coded tags:
@@ -183,14 +243,29 @@ This project follows Blend Design System guidelines:
 
 ## Contributing
 
-This is a demo project for showcasing data fetch scheduling capabilities. For production use, consider adding:
+This is a collection of demo projects showcasing the Blend Design System. Each demo focuses on different use cases and component combinations to help developers understand how to build applications with Blend.
+
+### Adding New Demos
+
+To add a new demo to this repository:
+
+1. Create a new module in `src/modules/your-demo-name/`
+2. Build your demo using Blend components and foundation tokens
+3. Follow the coding guidelines in `.claude/CODING_GUIDELINES.md`
+4. Update this README with your demo's description and featured components
+5. Add routing in `App.tsx` if needed
+
+### For Production Use
+
+These are demonstration projects. For production applications, consider adding:
 
 - Backend API integration
 - Authentication and authorization
-- Task execution engine
 - Database persistence
-- Logging and monitoring
+- Error handling and logging
 - Unit and integration tests
+- Performance optimization
+- Accessibility audits
 
 ## License
 
@@ -198,5 +273,8 @@ This is a demo project for showcasing data fetch scheduling capabilities. For pr
 
 ## Acknowledgments
 
+These demos are built to showcase the capabilities and best practices of the Blend Design System. They serve as reference implementations for developers looking to build applications using Blend components and patterns.
+
 - Built with [Blend Design System](https://juspay.design) by Juspay
 - Powered by [Vite](https://vitejs.dev) and [React](https://react.dev)
+- Visit [Blend Documentation](https://juspay.design/docs) for complete component reference
