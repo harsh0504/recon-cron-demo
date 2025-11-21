@@ -1,0 +1,374 @@
+.data-fetch-scheduler {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+/* Stat Card */
+.stat-card {
+  padding: 24px;
+  text-align: center;
+}
+
+.stat-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.stat-subtitle {
+  font-size: 14px;
+  color: var(--color-text-tertiary);
+}
+
+/* Tasks Section */
+.tasks-section {
+  margin-top: 32px;
+}
+
+.tasks-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tasks-section-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Task Card */
+.task-card {
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.task-info {
+  flex: 1;
+}
+
+.task-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.task-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.task-details {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.detail-item {
+  display: flex;
+  gap: 8px;
+}
+
+.detail-label {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 14px;
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .data-fetch-scheduler {
+    padding: 16px;
+  }
+
+  .task-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-actions {
+    width: 100%;
+  }
+
+  .task-actions button {
+    flex: 1;
+  }
+}
+
+/* Drawer Styles */
+.data-fetch-drawer-content [data-vaul-handle] {
+  display: none !important;
+}
+
+/* Neutralize Blend component margins/padding for alignment */
+.data-fetch-drawer-content [data-blend-select],
+.data-fetch-drawer-content [data-blend-radio-group],
+.data-fetch-drawer-content [data-blend-input] {
+  margin-top: 0 !important;
+}
+
+.drawer-header-custom {
+  border-bottom: 1px solid var(--color-border);
+  padding: 12px 16px;
+  background: var(--color-surface);
+  position: relative;
+}
+
+.drawer-header-custom h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 4px 0;
+  padding-right: 40px;
+}
+
+.drawer-header-custom p {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0;
+  padding-right: 40px;
+}
+
+.drawer-header-custom button {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--color-gray-600);
+  transition: color 0.2s;
+}
+
+.drawer-header-custom button:hover {
+  color: var(--color-text-primary);
+}
+
+/* Fix for MultiSelect search input */
+[data-blend-multiselect-menu] input[type="text"],
+[data-blend-multiselect-menu] input[type="search"] {
+  border: 1px solid var(--color-border) !important;
+  outline: none !important;
+}
+
+[data-blend-multiselect-menu] input[type="text"]:focus,
+[data-blend-multiselect-menu] input[type="search"]:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+}
+
+/* Drawer Content Layouts */
+.drawer-mobile {
+  height: 90vh !important;
+  max-height: 90vh !important;
+  border-radius: 16px 16px 0 0 !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .drawer-section {
+    padding: 12px;
+    gap: 20px;
+  }
+
+  .drawer-section-compact {
+    padding: 8px 12px;
+    gap: 20px;
+  }
+
+  .drawer-columns-container {
+    max-height: 300px;
+  }
+
+  .drawer-filter-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .drawer-button-container {
+    height: auto;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+}
+
+.drawer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px;
+}
+
+.drawer-section-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 12px 16px;
+}
+
+.drawer-section-tight {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.drawer-label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.drawer-columns-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.drawer-column-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.drawer-filter-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr auto;
+  gap: 8px;
+  margin-bottom: 12px;
+  align-items: start;
+}
+
+.drawer-button-container {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.drawer-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  width: 100%;
+}
+
+.drawer-retry-section {
+  padding-top: 12px;
+}
+
+.drawer-retry-section-label {
+  display: block;
+  margin-bottom: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.drawer-select-offset {
+  margin-top: -4px;
+}
+
+/* Task Logs Drawer */
+.task-logs-drawer-content {
+  overflow-x: hidden;
+}
+
+.logs-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.no-logs {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-text-secondary);
+}
+
+.no-logs p {
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Fix text wrapping in Task Logs Stepper */
+.logs-container [data-blend-stepper] {
+  max-width: 100%;
+  width: 100%;
+}
+
+/* Ensure step content doesn't overflow */
+.logs-container [data-blend-step] {
+  max-width: 100%;
+}
+
+/* Fix description text wrapping */
+.logs-container [data-blend-stepper] p,
+.logs-container [data-blend-stepper] [data-blend-step-description],
+.logs-container [data-blend-step-content] {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  padding-right: 16px;
+  line-height: 1.5;
+}
+
+/* Ensure step titles also wrap if needed */
+.logs-container [data-blend-step-title] {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}

@@ -7,7 +7,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   /* Foundation Colors */
   --color-primary: #667eea;
   --color-primary-dark: #764ba2;
@@ -16,6 +15,7 @@
   --color-warning: #f59e0b;
 
   /* Neutral Colors */
+  --color-gray-0: #ffffff;
   --color-gray-50: #f8fafc;
   --color-gray-100: #f1f5f9;
   --color-gray-200: #e2e8f0;
@@ -32,7 +32,7 @@
   --color-text-secondary: var(--color-gray-500);
   --color-text-tertiary: var(--color-gray-400);
   --color-border: var(--color-gray-200);
-  --color-background: var(--color-gray-50);
+  --color-background: var(--color-gray-0);
   --color-surface: #ffffff;
 }
 
@@ -40,6 +40,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #ffffff;
 }
 
 * {
@@ -47,13 +48,53 @@ body {
 }
 
 /* CSS Reset - Remove browser default styles */
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, code, em, img, small, strong, sub, sup,
-b, u, i, dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, footer, header, nav, section,
-figure, figcaption {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+code,
+em,
+img,
+small,
+strong,
+sub,
+sup,
+b,
+u,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+footer,
+header,
+nav,
+section,
+figure,
+figcaption {
   margin: 0;
   padding: 0;
   border: 0;
@@ -63,12 +104,14 @@ figure, figcaption {
 }
 
 /* Remove list styles */
-ol, ul {
+ol,
+ul {
   list-style: none;
 }
 
 /* Remove quotes */
-blockquote, q {
+blockquote,
+q {
   quotes: none;
 }
 
@@ -79,7 +122,10 @@ table {
 }
 
 /* Remove button/input defaults */
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   margin: 0;
   padding: 0;
   border: 0;

@@ -16,14 +16,7 @@ import {
   TagVariant,
 } from "@juspay/blend-design-system";
 import type { Step } from "@juspay/blend-design-system";
-
-interface TaskLog {
-  id: string;
-  timestamp: string;
-  status: "success" | "failed" | "running";
-  message: string;
-  duration?: string;
-}
+import type { TaskLog } from "../types";
 
 interface TaskLogsDrawerProps {
   open: boolean;
