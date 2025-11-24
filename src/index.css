@@ -79,14 +79,6 @@ fieldset,
 form,
 label,
 legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
 article,
 aside,
 footer,
@@ -115,10 +107,17 @@ q {
   quotes: none;
 }
 
-/* Remove table spacing */
-table {
+/* Table reset - but NOT for Blend DataTable components */
+table:not([class*="blend"]):not([class*="data-table"]) {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+table:not([class*="blend"]):not([class*="data-table"]) th,
+table:not([class*="blend"]):not([class*="data-table"]) td {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 /* Remove button/input defaults */
