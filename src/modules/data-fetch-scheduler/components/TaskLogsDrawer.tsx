@@ -19,7 +19,7 @@ import {
   StepperType,
   StepState,
 } from "@juspay/blend-design-system";
-import type { Step } from "@juspay/blend-design-system";
+import type { Step, DateRange } from "@juspay/blend-design-system";
 import type { TaskLog } from "../types";
 
 interface TaskLogsDrawerProps {
@@ -35,13 +35,7 @@ export default function TaskLogsDrawer({
   taskName,
   logs,
 }: TaskLogsDrawerProps) {
-  const [dateRange, setDateRange] = useState<{
-    startDate: Date | null;
-    endDate: Date | null;
-  }>({
-    startDate: null,
-    endDate: null,
-  });
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
 
   const [expandedLogs, setExpandedLogs] = useState<Set<string>>(new Set());
 
@@ -101,7 +95,7 @@ export default function TaskLogsDrawer({
   };
 
   const filterLogsByDateRange = (logs: TaskLog[]): TaskLog[] => {
-    if (!dateRange.startDate && !dateRange.endDate) {
+    if (!dateRange || (!dateRange.startDate && !dateRange.endDate)) {
       return logs;
     }
 
@@ -154,14 +148,8 @@ export default function TaskLogsDrawer({
           <DrawerBody direction="right" overflowY="auto">
             <div style={{ marginBottom: "20px" }}>
               <DateRangePicker
-                startDate={dateRange.startDate}
-                endDate={dateRange.endDate}
-                onStartDateChange={(date) =>
-                  setDateRange({ ...dateRange, startDate: date })
-                }
-                onEndDateChange={(date) =>
-                  setDateRange({ ...dateRange, endDate: date })
-                }
+                value={dateRange}
+                onChange={setDateRange}
                 placeholder="Filter by date range"
               />
             </div>
