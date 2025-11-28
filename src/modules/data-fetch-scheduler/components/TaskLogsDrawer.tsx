@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Drawer,
   DrawerPortal,
@@ -8,12 +9,15 @@ import {
   DrawerDescription,
   DrawerBody,
   DrawerClose,
-  Stepper,
-  StepperType,
-  StepState,
+  Card,
+  CardVariant,
   Tag,
   TagColor,
   TagVariant,
+  DateRangePicker,
+  Stepper,
+  StepperType,
+  StepState,
 } from "@juspay/blend-design-system";
 import type { Step } from "@juspay/blend-design-system";
 import type { TaskLog } from "../types";
@@ -31,17 +35,26 @@ export default function TaskLogsDrawer({
   taskName,
   logs,
 }: TaskLogsDrawerProps) {
-  const getStepState = (status: string): StepState => {
-    switch (status) {
-      case "success":
-        return StepState.COMPLETED;
-      case "failed":
-        return StepState.DISABLED;
-      case "running":
-        return StepState.CURRENT;
-      default:
-        return StepState.PENDING;
-    }
+  const [dateRange, setDateRange] = useState<{
+    startDate: Date | null;
+    endDate: Date | null;
+  }>({
+    startDate: null,
+    endDate: null,
+  });
+
+  const [expandedLogs, setExpandedLogs] = useState<Set<string>>(new Set());
+
+  const toggleLogExpansion = (logId: string) => {
+    setExpandedLogs((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(logId)) {
+        newSet.delete(logId);
+      } else {
+        newSet.add(logId);
+      }
+      return newSet;
+    });
   };
 
   const getTagColor = (status: string): TagColor => {
@@ -70,24 +83,44 @@ export default function TaskLogsDrawer({
     }
   };
 
-  // Convert TaskLog[] to Step[] for Stepper component
-  const steps: Step[] = logs.map((log, index) => ({
-    id: index,
-    title: (
-      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-        <span>{log.timestamp}</span>
-        <Tag
-          text={getStatusText(log.status)}
-          color={getTagColor(log.status)}
-          variant={TagVariant.SUBTLE}
-        />
-      </div>
-    ) as any,
-    status: getStepState(log.status),
-    description: `${log.message}${
-      log.duration ? ` (Duration: ${log.duration})` : ""
-    }`,
-  }));
+  const getStepState = (status: string): StepState => {
+    switch (status) {
+      case "success":
+        return StepState.COMPLETED;
+      case "failed":
+        return StepState.DISABLED;
+      case "running":
+        return StepState.CURRENT;
+      default:
+        return StepState.PENDING;
+    }
+  };
+
+  const parseLogTimestamp = (timestamp: string): Date => {
+    return new Date(timestamp);
+  };
+
+  const filterLogsByDateRange = (logs: TaskLog[]): TaskLog[] => {
+    if (!dateRange.startDate && !dateRange.endDate) {
+      return logs;
+    }
+
+    return logs.filter((log) => {
+      const logDate = parseLogTimestamp(log.timestamp);
+
+      if (dateRange.startDate && dateRange.endDate) {
+        return logDate >= dateRange.startDate && logDate <= dateRange.endDate;
+      } else if (dateRange.startDate) {
+        return logDate >= dateRange.startDate;
+      } else if (dateRange.endDate) {
+        return logDate <= dateRange.endDate;
+      }
+
+      return true;
+    });
+  };
+
+  const filteredLogs = filterLogsByDateRange(logs);
 
   return (
     <Drawer
@@ -119,17 +152,171 @@ export default function TaskLogsDrawer({
           </DrawerHeader>
 
           <DrawerBody direction="right" overflowY="auto">
-            <div className="">
-              {logs.length === 0 ? (
+            <div style={{ marginBottom: "20px" }}>
+              <DateRangePicker
+                startDate={dateRange.startDate}
+                endDate={dateRange.endDate}
+                onStartDateChange={(date) =>
+                  setDateRange({ ...dateRange, startDate: date })
+                }
+                onEndDateChange={(date) =>
+                  setDateRange({ ...dateRange, endDate: date })
+                }
+                placeholder="Filter by date range"
+              />
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {filteredLogs.length === 0 ? (
                 <div className="no-logs">
-                  <p>No execution logs available for this task yet.</p>
+                  <p>
+                    {logs.length === 0
+                      ? "No execution logs available for this task yet."
+                      : "No logs found for the selected date range."}
+                  </p>
                 </div>
               ) : (
-                <Stepper
-                  steps={steps}
-                  stepperType={StepperType.VERTICAL}
-                  clickable={false}
-                />
+                filteredLogs.map((log) => {
+                  const isExpanded = expandedLogs.has(log.id);
+                  const hasAuditSteps = log.auditSteps && log.auditSteps.length > 0;
+
+                  const auditSteps: Step[] = hasAuditSteps
+                    ? log.auditSteps!.map((step, index) => ({
+                        id: index,
+                        title: (
+                          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                            <span style={{ fontSize: "13px" }}>{step.timestamp}</span>
+                            <Tag
+                              text={getStatusText(step.status)}
+                              color={getTagColor(step.status)}
+                              variant={TagVariant.SUBTLE}
+                            />
+                          </div>
+                        ) as any,
+                        status: getStepState(step.status),
+                        description: `${step.message}${
+                          step.duration ? ` (${step.duration})` : ""
+                        }`,
+                      }))
+                    : [];
+
+                  return (
+                    <Card key={log.id} variant={CardVariant.CUSTOM}>
+                      <div
+                        style={{
+                          padding: "16px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => toggleLogExpansion(log.id)}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            marginBottom: isExpanded ? "12px" : "0",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "12px",
+                              flex: 1,
+                            }}
+                          >
+                            <span
+                              style={{
+                                fontSize: "14px",
+                                fontWeight: 500,
+                                color: "var(--color-text-primary)",
+                              }}
+                            >
+                              {log.timestamp}
+                            </span>
+                            <Tag
+                              text={getStatusText(log.status)}
+                              color={getTagColor(log.status)}
+                              variant={TagVariant.SUBTLE}
+                            />
+                            {log.duration && (
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "var(--color-text-secondary)",
+                                }}
+                              >
+                                {log.duration}
+                              </span>
+                            )}
+                          </div>
+                          <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            style={{
+                              transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+                              transition: "transform 0.2s ease",
+                            }}
+                          >
+                            <path
+                              d="M5 7.5L10 12.5L15 7.5"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+
+                        {isExpanded && (
+                          <div
+                            style={{
+                              paddingTop: "12px",
+                              borderTop: "1px solid var(--color-border)",
+                            }}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <p
+                              style={{
+                                fontSize: "14px",
+                                color: "var(--color-text-secondary)",
+                                lineHeight: "1.5",
+                                margin: 0,
+                                marginBottom: hasAuditSteps ? "16px" : "0",
+                              }}
+                            >
+                              {log.message}
+                            </p>
+
+                            {hasAuditSteps && (
+                              <div>
+                                <h4
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    color: "var(--color-text-primary)",
+                                    marginBottom: "12px",
+                                    marginTop: "0",
+                                  }}
+                                >
+                                  Execution Audit Trail
+                                </h4>
+                                <Stepper
+                                  steps={auditSteps}
+                                  stepperType={StepperType.VERTICAL}
+                                  clickable={false}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </Card>
+                  );
+                })
               )}
             </div>
           </DrawerBody>

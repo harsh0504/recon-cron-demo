@@ -170,6 +170,43 @@ export default function DataFetchScheduler() {
           status: "success",
           message: "Successfully fetched 1,234 records from SFTP server",
           duration: "2m 15s",
+          auditSteps: [
+            {
+              id: "step-1-1",
+              timestamp: "2024-01-15 10:30:00",
+              status: "success",
+              message: "Initiated SFTP connection",
+              duration: "5s",
+            },
+            {
+              id: "step-1-2",
+              timestamp: "2024-01-15 10:30:05",
+              status: "success",
+              message: "Authentication successful",
+              duration: "3s",
+            },
+            {
+              id: "step-1-3",
+              timestamp: "2024-01-15 10:30:08",
+              status: "success",
+              message: "Located gateway files",
+              duration: "10s",
+            },
+            {
+              id: "step-1-4",
+              timestamp: "2024-01-15 10:30:18",
+              status: "success",
+              message: "Downloaded 1,234 records",
+              duration: "1m 50s",
+            },
+            {
+              id: "step-1-5",
+              timestamp: "2024-01-15 10:32:08",
+              status: "success",
+              message: "Data validation completed",
+              duration: "7s",
+            },
+          ],
         },
         {
           id: "log-1-2",
@@ -177,6 +214,43 @@ export default function DataFetchScheduler() {
           status: "success",
           message: "Successfully fetched 1,189 records from SFTP server",
           duration: "2m 8s",
+          auditSteps: [
+            {
+              id: "step-1-2-1",
+              timestamp: "2024-01-14 10:30:00",
+              status: "success",
+              message: "Initiated SFTP connection",
+              duration: "4s",
+            },
+            {
+              id: "step-1-2-2",
+              timestamp: "2024-01-14 10:30:04",
+              status: "success",
+              message: "Authentication successful",
+              duration: "2s",
+            },
+            {
+              id: "step-1-2-3",
+              timestamp: "2024-01-14 10:30:06",
+              status: "success",
+              message: "Located gateway files",
+              duration: "8s",
+            },
+            {
+              id: "step-1-2-4",
+              timestamp: "2024-01-14 10:30:14",
+              status: "success",
+              message: "Downloaded 1,189 records",
+              duration: "1m 48s",
+            },
+            {
+              id: "step-1-2-5",
+              timestamp: "2024-01-14 10:32:02",
+              status: "success",
+              message: "Data validation completed",
+              duration: "6s",
+            },
+          ],
         },
         {
           id: "log-1-3",
@@ -194,6 +268,43 @@ export default function DataFetchScheduler() {
           message:
             "BigQuery analytics export completed successfully. Exported 45,678 rows.",
           duration: "5m 32s",
+          auditSteps: [
+            {
+              id: "step-2-1",
+              timestamp: "2024-01-14 08:00:00",
+              status: "success",
+              message: "Connected to BigQuery",
+              duration: "8s",
+            },
+            {
+              id: "step-2-2",
+              timestamp: "2024-01-14 08:00:08",
+              status: "success",
+              message: "Query validation successful",
+              duration: "5s",
+            },
+            {
+              id: "step-2-3",
+              timestamp: "2024-01-14 08:00:13",
+              status: "success",
+              message: "Executing query on gateways",
+              duration: "4m 50s",
+            },
+            {
+              id: "step-2-4",
+              timestamp: "2024-01-14 08:05:03",
+              status: "success",
+              message: "Retrieved 45,678 rows",
+              duration: "20s",
+            },
+            {
+              id: "step-2-5",
+              timestamp: "2024-01-14 08:05:23",
+              status: "success",
+              message: "Data export completed",
+              duration: "9s",
+            },
+          ],
         },
         {
           id: "log-2-2",
@@ -212,6 +323,43 @@ export default function DataFetchScheduler() {
           message:
             "Connection timeout: Failed to connect to Bank API endpoint after 3 retries",
           duration: "15m 30s",
+          auditSteps: [
+            {
+              id: "step-3-1",
+              timestamp: "2024-01-15 09:15:00",
+              status: "success",
+              message: "Initiated API connection",
+              duration: "2s",
+            },
+            {
+              id: "step-3-2",
+              timestamp: "2024-01-15 09:15:02",
+              status: "failed",
+              message: "Connection timeout (Attempt 1/3)",
+              duration: "5m 0s",
+            },
+            {
+              id: "step-3-3",
+              timestamp: "2024-01-15 09:20:02",
+              status: "failed",
+              message: "Connection timeout (Attempt 2/3)",
+              duration: "5m 0s",
+            },
+            {
+              id: "step-3-4",
+              timestamp: "2024-01-15 09:25:02",
+              status: "failed",
+              message: "Connection timeout (Attempt 3/3)",
+              duration: "5m 0s",
+            },
+            {
+              id: "step-3-5",
+              timestamp: "2024-01-15 09:30:02",
+              status: "failed",
+              message: "Task failed - Max retries exceeded",
+              duration: "28s",
+            },
+          ],
         },
         {
           id: "log-3-2",
@@ -219,6 +367,36 @@ export default function DataFetchScheduler() {
           status: "success",
           message: "Successfully fetched settlement data from Bank API",
           duration: "1m 45s",
+          auditSteps: [
+            {
+              id: "step-3-2-1",
+              timestamp: "2024-01-14 09:15:00",
+              status: "success",
+              message: "Initiated API connection",
+              duration: "3s",
+            },
+            {
+              id: "step-3-2-2",
+              timestamp: "2024-01-14 09:15:03",
+              status: "success",
+              message: "Authentication successful",
+              duration: "5s",
+            },
+            {
+              id: "step-3-2-3",
+              timestamp: "2024-01-14 09:15:08",
+              status: "success",
+              message: "Fetching settlement data",
+              duration: "1m 30s",
+            },
+            {
+              id: "step-3-2-4",
+              timestamp: "2024-01-14 09:16:38",
+              status: "success",
+              message: "Data retrieved successfully",
+              duration: "7s",
+            },
+          ],
         },
         {
           id: "log-3-3",
@@ -226,6 +404,29 @@ export default function DataFetchScheduler() {
           status: "failed",
           message: "API rate limit exceeded. Retry scheduled.",
           duration: "0m 30s",
+          auditSteps: [
+            {
+              id: "step-3-3-1",
+              timestamp: "2024-01-13 09:15:00",
+              status: "success",
+              message: "Initiated API connection",
+              duration: "2s",
+            },
+            {
+              id: "step-3-3-2",
+              timestamp: "2024-01-13 09:15:02",
+              status: "success",
+              message: "Authentication successful",
+              duration: "3s",
+            },
+            {
+              id: "step-3-3-3",
+              timestamp: "2024-01-13 09:15:05",
+              status: "failed",
+              message: "Rate limit exceeded (429)",
+              duration: "25s",
+            },
+          ],
         },
         {
           id: "log-3-4",
@@ -258,7 +459,6 @@ export default function DataFetchScheduler() {
 
   return (
     <div className="data-fetch-scheduler">
-      {/* Stats Cards */}
       <div className="stats-grid">
         <Card variant={CardVariant.CUSTOM}>
           <div className="stat-card">
@@ -283,7 +483,6 @@ export default function DataFetchScheduler() {
         </Card>
       </div>
 
-      {/* Tasks Table */}
       <div className="tasks-section">
         <div className="tasks-section-header">
           <h2>Scheduled Tasks</h2>
