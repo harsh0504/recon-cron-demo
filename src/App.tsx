@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import "./App.css";
 import { DataFetchScheduler } from "./modules/data-fetch-scheduler";
 import { TransactionAnalytics } from "./modules/transaction-analytics";
+import { FeeModule } from "./modules/fee-module";
 import {
   Sidebar,
   TextInput,
@@ -33,6 +34,7 @@ interface DirectoryData {
 
 function App() {
   const [currentView, setCurrentView] = useState<string>("data-fetch-scheduler");
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const navigationData: DirectoryData[] = [
@@ -49,6 +51,12 @@ function App() {
           label: "Transaction Analytics",
           isSelected: currentView === "transaction-analytics",
           onClick: () => setCurrentView("transaction-analytics"),
+          showOnMobile: true,
+        },
+        {
+          label: "Fee Module",
+          isSelected: currentView === "fee-module",
+          onClick: () => setCurrentView("fee-module"),
           showOnMobile: true,
         },
         {
@@ -218,6 +226,8 @@ function App() {
         return <DataFetchScheduler />;
       case "transaction-analytics":
         return <TransactionAnalytics />;
+      case "fee-module":
+        return <FeeModule onRuleCreationModeChange={(isCreating: boolean) => setIsSidebarExpanded(!isCreating)} />;
       case "tasks":
         return (
           <div className="placeholder-content">
@@ -249,7 +259,8 @@ function App() {
       data={navigationData}
       topbar={topbarContent}
       sidebarCollapseKey="data-fetch-scheduler-sidebar"
-      defaultIsExpanded={true}
+      isExpanded={isSidebarExpanded}
+      onExpandedChange={setIsSidebarExpanded}
     >
       {renderContent()}
     </Sidebar>

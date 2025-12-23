@@ -1,0 +1,159 @@
+.fee-module {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+/* Page Header */
+.fee-module-header {
+  margin-bottom: 24px;
+}
+
+.fee-module-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-gray-600);
+  margin: 0;
+  line-height: 32px;
+}
+
+/* Toolbar */
+.fee-module-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 19px 0;
+}
+
+.fee-module-search {
+  width: 350px;
+}
+
+.fee-module-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+/* Cards Grid */
+.pricing-rules-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .pricing-rules-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .pricing-rules-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .fee-module {
+    padding: 16px;
+  }
+
+  .fee-module-toolbar {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .fee-module-search {
+    width: 100%;
+  }
+
+  .fee-module-actions {
+    justify-content: flex-end;
+  }
+
+  .pricing-rules-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Pricing Rule Card */
+.pricing-rule-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 180px;
+}
+
+.pricing-rule-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.pricing-rule-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.pricing-rule-card-badge {
+  flex-shrink: 0;
+}
+
+.pricing-rule-card-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-primary);
+  background: var(--color-gray-100);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.pricing-rule-card-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 4px 0;
+}
+
+.pricing-rule-card-description {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.pricing-rule-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  margin-top: auto;
+}
+
+.pricing-rule-card-gateway {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.pricing-rule-card-gateway strong {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.pricing-rule-card-actions {
+  display: flex;
+  gap: 8px;
+}

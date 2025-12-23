@@ -1,0 +1,337 @@
+.create-rule-flow {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 100px);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px 108px 16px;
+  background-color: var(--color-gray-25);
+}
+
+/* Breadcrumbs */
+.create-rule-breadcrumbs {
+  margin-bottom: 24px;
+}
+
+/* Main Content Area */
+.create-rule-content {
+  display: flex;
+  gap: 32px;
+  flex: 1;
+  align-items: flex-start;
+}
+
+/* Step Sidebar */
+.create-rule-sidebar {
+  width: 320px;
+  flex-shrink: 0;
+}
+
+.create-rule-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 32px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+}
+
+/* Form Area */
+.create-rule-form-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.create-rule-form-card {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 0;
+}
+
+.form-step-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 8px 0;
+}
+
+.form-step-description {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0 0 32px 0;
+}
+
+/* Form Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 24px;
+}
+
+.form-grid-full {
+  grid-column: 1 / -1;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-field-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.form-field-label.required::after {
+  content: " *";
+  color: var(--color-danger);
+}
+
+.form-field-hint {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+/* Form Section */
+.form-section {
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.form-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.form-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 20px 0;
+}
+
+/* Inline Fields */
+.form-inline {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.form-inline > * {
+  flex: 1;
+}
+
+/* Radio Group Styling */
+.form-radio-group {
+  gap: 16px ;
+  width: 100%;
+}
+
+/* 
+ * Target the label element rendered by the Radio component.
+ * We use a descendant selector to handle potential wrapping divs 
+ * introduced by the RadioGroup component.
+ */
+.form-radio-group label {
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.form-radio-group label:hover {
+  background-color: var(--color-gray-50);
+  border-color: var(--color-gray-300);
+}
+
+/* Active/Selected state */
+.form-radio-group label:has(input:checked) {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-lightest);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+/* Checkbox Group */
+.form-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Info Box */
+.form-info-box {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.form-info-box.warning {
+  background: #fef3c7;
+  border-color: var(--color-warning);
+}
+
+.form-info-box.warning .form-info-icon {
+  color: var(--color-warning);
+}
+
+.form-info-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+
+.form-info-text {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Navigation Bar */
+.create-rule-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  margin-top: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.nav-left {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-right {
+  display: flex;
+  gap: 12px;
+}
+
+/* Review Step */
+.review-section {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.review-section:last-child {
+  margin-bottom: 0;
+}
+
+.review-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.review-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.review-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.review-label {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.review-value {
+  font-size: 14px;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .create-rule-content {
+    flex-direction: column;
+  }
+
+  .create-rule-sidebar {
+    width: 100%;
+  }
+
+  .create-rule-steps {
+    /* flex-direction: row; */ /* Stepper might be vertical only */
+    /* overflow-x: auto; */
+    /* gap: 24px; */
+    padding: 16px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .review-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .create-rule-flow {
+    padding: 16px;
+  }
+
+  .create-rule-form-card {
+    padding: 20px;
+  }
+
+  .create-rule-navigation {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .nav-left,
+  .nav-right {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Step Transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step-content-animate {
+  animation: fadeIn 0.4s ease-out forwards;
+}
